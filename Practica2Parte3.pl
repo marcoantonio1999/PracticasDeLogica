@@ -28,6 +28,13 @@ compress (L, Lc):-
 %La regla será satisfactoria cuando se cumpla la propiedad de que LA tiene el
 %agrupamiento de los elementos de la lista L
 
+
+compress([],[]).
+compress([X],[X]).
+compress([X,X|Xs],Zs) :- compress([X|Xs],Zs).
+compress([X,Y|Ys],[X|Zs]) :- X \= Y, compress([Y|Ys],Zs).
+
+
 c_by_group (L, LA):-
 %Recibe dos parámetros: L, LAC
 %La regla será satisfactoria cuando se cumpla la propiedad de que LAC tiene el
