@@ -7,6 +7,9 @@
 %rango entre M y N.
 
 range (M, N, L):-
+range (M, N, L):-
+range(M,N,[]) :- M > N.
+range (M,N,[M|Rs]) :- M <= N, M1 is M+1, range(M1,N,Rs).
 
 
 %Recibe tres parámetros: L, N, A.
