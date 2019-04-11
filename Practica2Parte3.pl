@@ -6,8 +6,8 @@
 La regla será satisfactoria cuando se cumpla la propiedad de que L contiene el
 rango entre M y N.
 range (M, N, L):-*/
-range(M,N,[]) :- M > N.
-range(M,N,[M|Rs]) :- M <= N, M1 is M+1, range(M1,N,Rs).
+range(M,N,[]):- M > N.
+range(M,N,[M|Rs]):- M =< N, M1 is M+1, range(M1,N,Rs).
 
 
 /*Recibe tres parámetros: L, N, A.
@@ -16,8 +16,8 @@ L.
 La lista resultante se guardará en la variable A.
 rotate (L, N, A):-*/
 
-rotate(L,0,L).
-rotate([],_,[]).
+rotate(L,0,L):-!.
+rotate([],_,[]):-!.
 rotate([X|XS],N,A):- N2 is N-1,append(XS,[X],L2),rotate(L2,N2,A).
 
 /*Recibe dos parámetros: L, Lc
@@ -34,23 +34,22 @@ La regla será satisfactoria cuando se cumpla la propiedad de que LA tiene el
 agrupamiento de los elementos de la lista L
 c_by_group (L, LA):-*/
 
-c_by_group([X],[X]):-!.
-c_by_group([[X|XS],X|YS],ZS):-c_by_group([[X,X|XS]|YS],ZS).
-c_by_group([[X|XS],Y|YS],[[X|XS]|ZS]):- X \= Y, c_by_group([Y|YS],ZS).
-c_by_group([X,X|XS],YS):-c_by_group([[X],X|XS],YS).
-c_by_group([X,Y|XS],YS):- X \= Y, c_by_group([[X],Y|XS],YS).
+c_by_group([X],[[X]]):-!.
+c_by_group([[X|XS],X|YS],ZS):-c_by_group([[X,X|XS]|YS],ZS),!.
+c_by_group([[X|XS],Y|YS],[[X|XS]|ZS]):- X \= Y, c_by_group([Y|YS],ZS),!.
+c_by_group([X,X|XS],YS):-c_by_group([[X],X|XS],YS),!.
+c_by_group([X,Y|XS],YS):- X \= Y, c_by_group([[X],Y|XS],YS),!.
 
 /*Recibe dos parámetros: L, LAC
 La regla será satisfactoria cuando se cumpla la propiedad de que LAC tiene el
 agrupamiento compreso de los elementos de la lista L
 e12 (L, LAC) :-*/
 
-e12([],_):-!.
-e12([[N,X]],[[N,X]|_]):-!.
+e12([[N,X]],[[N,X]]):-!.
 e12([X],[[1,X]]):-!.
-e12([[N,X],X|XS],YS):- M is N+1, e12([[M,X]|XS],YS).
+e12([[N,X],X|XS],YS):- M is N+1, e12([[M,X]|XS],YS),!.
 e12([X,X|XS],YS):- e12([[1,X],X|XS],YS).
-e12([[N,X],Y|XS],[[N,X]|YS]):- X \= Y, e12([Y|XS],YS).
+e12([[N,X],Y|XS],[[N,X]|YS]):- X \= Y, e12([Y|XS],YS),!.
 e12([X,Y|XS],YS):- X \= Y, e12([[1,X],Y|XS],YS).
 
 /*Recibe tres parámetros: G,N,D
@@ -71,7 +70,7 @@ dR( [(_,X)|XS], Y, N) :- dR(XS,Y,N), Y\=X.
 La regla será satisfactoria cuando se cumpla la propiedad de que NL es la lista
 de vecinos del nodo N en la gráfica G.
 neighbors (G,N,NL) :-*/
-neighbors([],N,[]).
+neighbors([],_,[]).
 neighbors([(X,Y)|XS],X,[Y|R]) :- neighbors(XS,X,R),X\=Y.
 neighbors([(Y,X)|XS],X,[Y|R]) :- neighbors(XS,X,R),X\=Y.
 neighbors([(Y,Z)|XS],X,L) :- neighbors(XS,X,L),X\=Y,X\=Z.
@@ -87,7 +86,7 @@ walk([(X,Y)|_],X,Y,[X,Y],_,_).
 walk([(X,Y)|_],Y,X,[Y,X],_,_).
 walk([(X,Y)|XS] ,E1 ,E2 ,[X|N] ,YS ,I) :- E1 = X, member(X,N), walk(XS,Y,E2,N,YS,J), J is I+1.
 walk([(X,Y)|XS] ,E1 ,E2 ,[Y|N] ,YS ,I) :- E1 = Y, member(Y,N), walk(XS,X,E2,N,YS,J), J is I+1.
-walk([X|XS],E1,E2,N,YS,I) :- walk(XS,E1,E2,N,YS,I).
+walk([_|XS],E1,E2,N,YS,I) :- walk(XS,E1,E2,N,YS,I).
 
 /*Recibe dos parámetros: T, P
 La regla será satisfactoria cuando se cumpla la propiedad de que P es el
