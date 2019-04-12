@@ -79,7 +79,11 @@ neighbors([(Y,Z)|XS],X,L) :- neighbors(XS,X,L),X\=Y,X\=Z.
 La regla será satisfactoria cuando se cumpla la propiedad de que P es el
 camino que existe del nodo origen (O) al nodo destino (D) en la gráfica G.
 path (G, O, D, P):- */
-path(XS,E1,E2,N) :- walk(XS,E1,E2,N,XS,0).
+
+path(_,E1,E1,[E1]).
+path([(X,Y)|XS],E1,E2,[E1|YS]) :- X=E1,path(XS,Y,E2,YS).
+path([(X,Y)|XS],E1,E2,[E1|YS]) :- Y=E1,path(XS,X,E2,YS).
+path([_|XS],E1,E2,YS) :- path(XS,E1,E2,YS).
 
 walk([], E1, E2, N, XS,M) :- M > 0, path(XS,E1,E2,N).
 walk([(X,Y)|_],X,Y,[X,Y],_,_).
