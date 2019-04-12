@@ -123,12 +123,10 @@ is_symetric (T) :-*/
 is_symetric(t(_,t(_,nil,nil),t(_,nil,nil))):-!.
 is_symetric(t(_,T1,T2)):-is_symetric(T1),is_symetric(T2).
 
-
 is_symetric (nil).
 is_symetric (t(_,T1,T2)) :- simetrico(T1,T2)
 
-
-simetrico(vacioB,vacioB).
-simetrico(nodoB(I1,R,D1),nodoB(I2,R,D2)) :-
+simetrico(nil,nil).
+simetrico(t(I1,R,D1),t(I2,R,D2)) :-
 	simetrico(I1,D2),
 	simetrico(D1,I2).
