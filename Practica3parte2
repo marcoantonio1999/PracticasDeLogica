@@ -1,6 +1,12 @@
 (*Ejercicio 1*)
 Theorem asoc_suma : forall n m p:nat, (n+m)+p = n+(m+p).
-Admitted.
+Proof.
+intros.
+induction n.
+intuition.
+simpl.
+intuition.
+Qed.
 
 (*Ejercicio 2*)
 Lemma distr_mult_y_suma : forall n m p:nat, n*(m+p) = n*m + n*p.
@@ -8,7 +14,12 @@ Admitted.
 
 (*Ejercicio 3*)
 Theorem menor_igual_cero : forall n:nat, 0 <= n.
-Admitted.
+Proof.
+intros.
+induction n.
+constructor.
+intuition.
+Qed.
 
 Require Import List.
 
@@ -26,23 +37,51 @@ Fixpoint elem (z:A) (l: list A) :=
 
 (*Ejercicio 4*)
 Theorem theorem_elem : forall (a:A) (l:list A), elem a (a::l).
-Admitted.
+Proof.
+intros.
+unfold elem.
+constructor.
+intuition.
+Qed.
 
 (*Ejercicio 5*)
 Theorem theorem_elem2 : forall a:A, ~ elem a nil.
-Admitted.
+Proof.
+intros.
+trivial.
+intro.
+intuition.
+Qed.
+
 
 (*Ejercicio 6*)
 Theorem theorem_elem3 : forall (a b:A) (l:list A), elem b l -> elem b (a::l).
-Admitted.
+Proof.
+intros.
+unfold elem.
+right.
+intuition.
+Qed.
 
 (*Ejercicio 7*)
 Lemma nil_or_not : forall l:list A, l = [] \/ l <> [].
-Admitted.
+Proof.
+intros.
+destruct l.
+left.
+trivial.
+right.
+discriminate.
+Qed.
 
 (*Ejercicio 8*)
 Theorem split : forall l:list A, l <> [] -> exists x:A, exists l1 l2: list A, l = l1 ++ x::l2.
-Admitted.
+Proof.
+intros.
+induction l.
+-contradiction.
+-simpl. exists a, [], l. simpl. reflexivity.
+Qed.
 
 (*Ejercicio 9*)
 Lemma equal_lists : forall (a:A) (xs ys:list A), a::xs = a::ys <-> xs = ys.
