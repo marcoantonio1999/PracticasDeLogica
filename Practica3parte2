@@ -102,12 +102,27 @@ Definition bin := list bit.
 Check bit_ind.
 Print bin.
 
-(*Ejercicio 11*
+(*Ejercicio 11*)
 Fixpoint increment_one (b:bin):bin :=
-AQUI VA SU CÓDIGO
-*)
+match b with
+ | [] => [one]
+ | zero::xs => one::xs
+ | one::xs => zero::(increment_one xs)
+end.
 
-(*Ejercicio 12*
+Compute increment_one [].
+Compute increment_one [one].
+Compute increment_one [zero,one].
+
+(*Ejercicio 12*)
 Fixpoint to_binary (n:nat):bin :=
-AQUI VA SU CÓDIGO
-*)
+ match n with
+ | 0 => []
+ | S m => increment_one (to_binary m) 
+ end.
+
+Compute to_binary 0.
+Compute to_binary 1.
+Compute to_binary 2.
+Compute to_binary 3.
+Compute to_binary 4.
